@@ -1,11 +1,25 @@
 package com.ensaf.productms.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.ensaf.data.entity.IEntityId;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@Data
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.util.UUID;
+
+@Entity
+
+@SuperBuilder
+@NoArgsConstructor
+@Getter
+@Setter
 @EqualsAndHashCode(of = "id")
-public class Unit {
-    private Long id;
+@ToString
+public class Unit implements IEntityId<UUID> {
+    @Id
+    @GeneratedValue
+    private UUID id;
     private String name;
 }

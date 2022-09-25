@@ -1,5 +1,7 @@
 package com.ensaf.productms.web;
 
+import com.ensaf.productms.dto.IProductIdName;
+import com.ensaf.productms.dto.ProductIdName;
 import com.ensaf.productms.entity.Product;
 import com.ensaf.productms.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -25,16 +27,16 @@ public class ProductController {
 
     // return list of products
     @GetMapping
-    public List<Product> find() {
+    public List<IProductIdName> findAll() {
         log.trace("get all products");
-        return service.find();
+        return service.findAllWithProjection();
     }
 
     // return a product with id
     @GetMapping("/{id}")
     public Product findOne(@PathVariable Long id) {
         log.trace("get product {}", id);
-        return service.findByName(id);
+        return service.findById(id);
     }
 
     @GetMapping("by-name")

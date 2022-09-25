@@ -1,7 +1,11 @@
 package com.ensaf.productms.service;
 
+import com.ensaf.data.service.CrudService;
+import com.ensaf.productms.dto.IProductIdName;
+import com.ensaf.productms.dto.ProductIdName;
 import com.ensaf.productms.entity.Product;
 import com.ensaf.productms.repository.ProductRepository;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,19 +17,16 @@ import java.util.Optional;
 // les accès a la bd et implementation des règles de gestion
 @Service
 @Slf4j
-public class ProductService {
+public class ProductService extends CrudService<Product, Long> {
     @Autowired
+    @Getter
     private ProductRepository repository;
 
-    public List<Product> find() {
-        return repository.findAll();
+    public List<IProductIdName> findAllWithProjection() {
+        return repository.findAllProjectedBy(IProductIdName.class);
     }
 
     // return a product with id
-    public Product findByName(Long id) {
-        return repository.findById(id).orElseThrow();
-    }
-
     public List<Product> findByName(Optional<String> name) {
         log.trace("get products by name {}", name);
 //        return repository.findByNameContains(name.map(n -> "%" + n + "%").orElse(""));
@@ -33,20 +34,6 @@ public class ProductService {
         repository.findByNameContaining(name.orElse(null));
         repository.findByNameIgnoreCase(name.orElse(null));
         return repository.findByNameContainingIgnoreCase(name.orElse(null));
-    }
-
-    public Product create(Product product) {
-        log.trace("create new product {}", product);
-        return repository.save(product);
-    }
-
-    public Product update(Long id, Product product) {
-        log.trace("update product {}, new product : {}", id, product);
-        if (!repository.existsById(id)) {
-            throw new RuntimeException(String.format("Product with id %s not found", id));
-        }
-        product.setId(id);
-        return repository.save(product);
     }
 
     public void updateName(Long id, String name) {
@@ -57,10 +44,6 @@ public class ProductService {
         }, () -> {
             throw new RuntimeException(String.format("Product with id %s not found", id));
         });
-    }
-
-    public void delete(Long id) {
-        repository.deleteById(id);
     }
 
 }

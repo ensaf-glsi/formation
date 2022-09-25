@@ -1,10 +1,12 @@
 package com.ensaf.productms.entity;
 
+import com.ensaf.data.entity.IEntityId;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Table(name = "products")
@@ -14,7 +16,7 @@ import java.math.BigDecimal;
 @Getter @Setter
 @EqualsAndHashCode(of = "id")
 @ToString
-public class Product {
+public class Product implements IEntityId<Long> {
     @Id
     @GeneratedValue
     private Long id;
@@ -22,5 +24,19 @@ public class Product {
     private String name;
     @Column(name = "unit_price")
     private BigDecimal price;
-//    private Unit unit;
+    private String description;
+
+    @Enumerated(EnumType.STRING)
+    private ProductType type = ProductType.STOCKABLE;
+
+    @Temporal(TemporalType.DATE)
+    private Date createdDate = new Date();
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastUpdateDate = new Date();
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Unit unit;
+
+    @Transient
+    private String transientField;
 }

@@ -9,6 +9,8 @@ import java.util.Map;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
+    <P> List<P> findAllProjectedBy(Class<P> type);
+
     // JPQL
     @Query("select p from Product p where upper(p.name) like upper(:name)")
     List<Product> findByNameContains(String name);
