@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
@@ -17,5 +18,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByNameContaining(String name);
     List<Product> findByName(String name);
     List<Product> findByNameIgnoreCase(String name);
+
+    @Query("SELECT c.name, COUNT(c.id) FROM Product AS c GROUP BY c.name ORDER BY c.name DESC")
+    List<Map<String, Object>> countTotalByName();
 
 }
