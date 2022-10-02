@@ -16,6 +16,7 @@ import java.util.Date;
 @Getter @Setter
 @EqualsAndHashCode(of = "id")
 @ToString
+// @MappedSuperclass
 public class Product implements IEntityId<Long> {
     @Id
     @GeneratedValue

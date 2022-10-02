@@ -17,9 +17,9 @@
 
 [x] Spring Web
 
-[ ] Liquibase
+[x] Liquibase
 
-[ ] Swagger
+[x] Swagger
 
 [ ] Open Feign
 

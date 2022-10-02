@@ -1,0 +1,25 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+  datasource:
+    url: jdbc:h2:mem:sales
+    # platform: postgres
+    # url: jdbc:postgresql://localhost:5432/products
+    # username: postgres
+    # password: postgres
+
+server:
+  port: 1001
+
+logging:
+  level:
+    root: INFO
+    com.ensaf: TRACE
+    org:
+      hibernate:
+        SQL: DEBUG
+        type.descriptor.sql.BasicBinder: TRACE
+

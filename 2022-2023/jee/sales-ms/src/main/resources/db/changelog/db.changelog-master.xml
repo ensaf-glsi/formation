@@ -1,0 +1,40 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd 
+   http://www.liquibase.org/xml/ns/dbchangelog 
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="zhanafi" id="set-001">
+        <createTable tableName="orders">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="customer_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="date" type="date" />
+            <column name="created_date" type="date" defaultValueComputed="NOW()" />
+        </createTable>
+    </changeSet>
+    <changeSet author="zhanafi" id="set-002">
+        <createTable tableName="order_lines">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="designation" type="varchar(200)" />
+            <column name="order_id" type="uuid">
+                <constraints foreignKeyName="fk_order_id" referencedTableName="orders" referencedColumnNames="id" />
+            </column>
+            <column name="product_id" type="bigint" />
+            <column name="price" type="decimal" />
+            <column name="quantity" type="bigint" />
+        </createTable>
+    </changeSet>
+<!--    <changeSet id="set-003" author="zhanafi">-->
+<!--        <addPrimaryKey tableName="order_lines" columnNames="id" />-->
+<!--    </changeSet>-->
+
+</databaseChangeLog>
